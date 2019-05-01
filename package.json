@@ -2,9 +2,9 @@
   "name": "mssql_sequelize_dataloader_graphql",
   "version": "1.0.0",
   "description": "Get data from SQL Server into a GraphQL API",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node -r esm index.js"
+    "start": "node -r esm server.js"
   },
   "repository": {
     "type": "git",
@@ -14,8 +14,11 @@
   "author": "Jon Crowell",
   "license": "ISC",
   "dependencies": {
+    "apollo-server": "^2.4.8",
     "dotenv": "^7.0.0",
     "esm": "^3.2.22",
+    "graphql": "^14.2.1",
+    "graphql-tools": "^4.0.4",
     "mssql": "^5.1.0",
     "sequelize": "^5.8.1"
   },
