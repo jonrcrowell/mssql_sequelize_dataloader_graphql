@@ -4,7 +4,7 @@
   "description": "Get data from SQL Server into a GraphQL API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node -r esm index.js"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,12 @@
   "keywords": [],
   "author": "Jon Crowell",
   "license": "ISC",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "esm": "^3.2.22",
+    "mssql": "^5.1.0",
+    "sequelize": "^5.8.1"
+  },
   "bugs": {
     "url": "https://github.com/jonrcrowell/mssql_sequelize_dataloader_graphql/issues"
   },
