@@ -13,6 +13,8 @@ const typeDefs = gql`
     PlayerId: ID!
     FullName: String!
     Nickname: String
+    Teams: [Team!]
+    Countries: [Country!]
   }
 
   type Team {
@@ -22,12 +24,19 @@ const typeDefs = gql`
       Colors: String!
   }
 
+  type Country {
+      CountryId: ID!
+      Country: String!
+      Abbreviation: String!
+  }
+
   # The "Query" type is the root of all GraphQL queries.
   # (A "Mutation" type will be covered later on.)
   type Query {
     books: [Book]
     players: [Player]
     teams: [Team]
+    countries: [Country]
   }
 `
 export default typeDefs;

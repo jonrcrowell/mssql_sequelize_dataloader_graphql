@@ -1,5 +1,6 @@
 import Team from '../Models/Team'
 import Player from '../Models/Player'
+import Country from '../Models/Country';
 
 // This is a (sample) collection of books we'll be able to query
 // the GraphQL server for.
@@ -21,10 +22,11 @@ const books = [
 const resolvers = {
     Query: {
         books: () => books,
+        countries: () => Country.findAll(),
         teams: () => Team.findAll(),
         players() {
-            return  Player.findAll();
-          }
+            return Player.findAll();
+        }
     }
 }
 
