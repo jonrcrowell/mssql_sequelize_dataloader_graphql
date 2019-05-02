@@ -22,11 +22,9 @@ sequelize.query("SELECT * FROM player").then(myTableRows => {
 })
 
 // Return promise using sequelize method
-const myTeam = Team.findByPk(1).then(team => {
-    team.Team
+Team.findByPk(1).then(team => {
+    console.log("My Team: ", team.Team)
 })
-
-console.log("My Team: ", myTeam)
 
 const schema = makeExecutableSchema({
     typeDefs,

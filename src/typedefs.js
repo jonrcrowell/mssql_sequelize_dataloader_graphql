@@ -14,7 +14,7 @@ const typeDefs = gql`
     FullName: String!
     Nickname: String
     Teams: [Team!]
-    Countries: [Country!]
+    Countries: Country!
   }
 
   type Team {

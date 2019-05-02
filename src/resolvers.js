@@ -24,8 +24,12 @@ const resolvers = {
         books: () => books,
         countries: () => Country.findAll(),
         teams: () => Team.findAll(),
-        players() {
-            return Player.findAll();
+        players: () => Player.findAll({ include: [Country] })
+    },
+    Player: {
+        Countries (parent){
+            console.log(' player Countries '); 
+            return Country.findByPk(parent.CountryId)
         }
     }
 }
