@@ -1,5 +1,4 @@
-import Sequelize from 'sequelize'
-import { Model } from 'sequelize'
+import { INTEGER, STRING, Model  } from 'sequelize'
 import sequelize from '../database/localhostConn'
 import Team from './Team'
 import Country from './Country'
@@ -7,28 +6,29 @@ import Country from './Country'
 class Player extends Model { };
 Player.init({
     PlayerId: {
-        type: Sequelize.INTEGER,
+        type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
     },
     FullName: {
-        type: Sequelize.STRING,
+        type: STRING,
         allowNull: false,
     },
     Nickname: {
-        type: Sequelize.STRING,
+        type: STRING,
         allowNull: true,
     },
     CountryId: {
-        type: Sequelize.STRING,
+        type: STRING,
         allowNull: false,
         foreignKey: true
     },
 }, { sequelize })
 
-Player.belongsToMany(Team,
-    { through: 'Player_Team', foreignKey: 'PlayerId', otherKey: 'TeamId' });
+ Player.belongsTo(Country, { foreignKey: 'CountryId' });
+// Player.belongsToMany(Team,
+//     { through: 'Player_Team', foreignKey: 'PlayerId', otherKey: 'TeamId' });
 
 
 export default Player;
