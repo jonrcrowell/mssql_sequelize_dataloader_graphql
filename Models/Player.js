@@ -2,6 +2,7 @@ import { INTEGER, STRING, Model  } from 'sequelize'
 import sequelize from '../database/localhostConn'
 import Team from './Team'
 import Country from './Country'
+import PlayerTeam from './PlayerTeam'
 
 class Player extends Model { };
 Player.init({
@@ -19,16 +20,13 @@ Player.init({
         type: STRING,
         allowNull: true,
     },
-    CountryId: {
-        type: STRING,
-        allowNull: false,
-        foreignKey: true
-    },
 }, { sequelize })
 
- Player.belongsTo(Country, { foreignKey: 'CountryId' });
-// Player.belongsToMany(Team,
-//     { through: 'Player_Team', foreignKey: 'PlayerId', otherKey: 'TeamId' });
-
+Player.belongsTo(Country, { foreignKey: 'CountryId' });
+Player.belongsToMany(Team, { through: PlayerTeam, foreignKey: 'PlayerId', otherKey: 'TeamId' });
+Team.belongsToMany(Player, { through: PlayerTeam, foreignKey: 'TeamId', otherKey: 'PlayerId' });
+PlayerTeam.belongsTo(Player, { foreignKey: 'PlayerId' });
+PlayerTeam.belongsTo(Team, { foreignKey: 'TeamId' });
 
 export default Player;
+export {Team, PlayerTeam};

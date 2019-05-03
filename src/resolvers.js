@@ -1,35 +1,38 @@
-import Team from '../Models/Team'
-import Player from '../Models/Player'
+//import Team from '../Models/Team'
+//import PlayerTeam from '../Models/PlayerTeam'
+import Player, { Team, PlayerTeam } from '../Models/Player'
 import Country from '../Models/Country';
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.
-const books = [
-    {
-        title: 'Harry Potter and the Chamber of Secrets',
-        author: 'J.K. Rowling',
-    },
-    {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton',
-    },
-    {
-        title: 'So Long and Thanks For All The Fish',
-        author: 'Ford Prefect',
-    }
-];
+import Sequelize from 'sequelize'
+const Op = Sequelize.Op;
 
 const resolvers = {
     Query: {
-        books: () => books,
         countries: () => Country.findAll(),
-        teams: () => Team.findAll(),
-        players: () => Player.findAll({ include: [Country] })
+        teams: () => Team.findAll({ include: [{ model: Player, through: PlayerTeam, as: 'Players'}] }),
+        players: () => Player.findAll({ include: [{ model: Team, through: PlayerTeam, as: 'Teams'}, { model: Country}] })
     },
     Player: {
         Countries (parent){
-            console.log(' player Countries '); 
             return Country.findByPk(parent.CountryId)
+        },
+        Teams (parent, args, ctx){
+            return Team.findAll({ 
+                include: [{ model: Player, through: PlayerTeam, as: 'Players'}],
+                where: {
+                    [Op.or]: parent.Teams.map(({TeamId}) => ({TeamId}))
+                  }
+            })
+        },
+    },
+    Team: {
+        Players (parent) {
+            return Player.findAll({ 
+                include: [{ model: Team, through: PlayerTeam, as: 'Teams'}],
+                where: {
+                    [Op.or]: parent.Players.map(({PlayerId}) => ({PlayerId}))
+                  } 
+            })
         }
     }
 }

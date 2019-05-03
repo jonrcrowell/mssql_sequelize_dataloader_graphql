@@ -1,11 +1,8 @@
-require('dotenv').config();
 const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
 import sequelize from './database/localhostConn'
 
 import typeDefs from './src/typedefs'
 import resolvers from './src/resolvers'
-import Team from './Models/Team'
-
 const { PORT, DB_NAME } = process.env;
 
 sequelize.authenticate()
@@ -16,15 +13,6 @@ sequelize.authenticate()
         console.log('Sad Panda! Unable to connect to the database: ', err)
     })
 
-// Get data using raw query
-sequelize.query("SELECT * FROM player").then(myTableRows => {
-    console.log(myTableRows)
-})
-
-// Return promise using sequelize method
-Team.findByPk(1).then(team => {
-    console.log("My Team: ", team.Team)
-})
 
 const schema = makeExecutableSchema({
     typeDefs,
