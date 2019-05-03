@@ -1,5 +1,6 @@
 const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
 import sequelize from './database/localhostConn'
+import loaders from './src/api/loaders';
 
 import typeDefs from './src/typedefs'
 import resolvers from './src/resolvers'
@@ -22,7 +23,12 @@ const schema = makeExecutableSchema({
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({ 
+    schema,    
+    context: {
+        loader: loaders()
+    }, 
+});
 
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.
