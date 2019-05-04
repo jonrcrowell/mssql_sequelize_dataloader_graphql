@@ -1,17 +1,16 @@
 import {  flatten } from 'ramda';
 
-import Player, { Team, PlayerTeam } from '../Models/Player'
-import Country from '../Models/Country';
+import Player, { PlayerTeam } from '../Models/Player'
 
 const resolvers = {
     Query: {
-        countries: () => Country.findAll(),
-        teams: () => Team.findAll({ include: [{ model: Player, through: PlayerTeam, as: 'Players'}] }),
-        players: () => Player.findAll({ include: [{ all: true }]})
+        countries: (_, __, ctx) => ctx.models.country.findAll(),
+        teams: (_, __, ctx) => ctx.models.team.findAll({ include: [{ model: Player, through: PlayerTeam, as: 'Players'}] }),
+        players: (_, __, ctx) => ctx.models.player.findAll({ include: [{ all: true }]})
     },
     Player: {
-        Countries (parent){
-            return Country.findByPk(parent.CountryId)
+        Countries (parent, _, ctx){
+            return ctx.models.country.findByPk(parent.CountryId)
         },
         async Teams (parent, _, { loader }){
             const teamIds = parent.Teams.map(({TeamId}) => TeamId);

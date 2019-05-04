@@ -1,8 +1,6 @@
 import { INTEGER, Model  } from 'sequelize';
 
 import sequelize from '../database/localhostConn';
-import Player from './Player';
-import Team from './Team';
 
 class PlayerTeam extends Model { };
 PlayerTeam.init({
