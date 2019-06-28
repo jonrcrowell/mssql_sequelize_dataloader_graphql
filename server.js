@@ -1,9 +1,12 @@
-const { ApolloServer, gql, makeExecutableSchema } = require('apollo-server');
-import sequelize from './database/localhostConn'
+const { ApolloServer, makeExecutableSchema } = require('apollo-server');
 
+import sequelize from './database/localhostConn'
+import loaders from './src/api/loaders';
+import Player, { Team } from './Models/Player'
+import Country from './Models/Country';
 import typeDefs from './src/typedefs'
 import resolvers from './src/resolvers'
-const { PORT, DB_NAME } = process.env;
+const { DB_NAME } = process.env;
 
 sequelize.authenticate()
     .then(() => {
@@ -22,7 +25,17 @@ const schema = makeExecutableSchema({
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({ 
+    schema,    
+    context: {
+        models: {
+            team: Team,
+            player: Player,
+            country: Country
+        },
+        loader: loaders()
+    }, 
+});
 
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.
